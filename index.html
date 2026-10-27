@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Omar Mostafa Portfolio</title>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0}
+
+/* Layout concept: a sales ledger. Left-aligned single column; the scoreboard of results against target is the one bold moment, everything else stays quiet. */
+:root {
+  --bg: #F2F4F8;
+  --surface: #FFFFFF;
+  --fg: #101828;
+  --muted: #566078;
+  --line: #D5DAE5;
+  --accent: #2D3DDB;
+  --accent-ink: #FFFFFF;
+  --target: #B9C0D2;
+  --font-display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D111C; --surface: #151B2A; --fg: #E7EBF5; --muted: #9AA4BD;
+    --line: #283049; --accent: #8E9BFF; --accent-ink: #0D111C; --target: #3A4361;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D111C; --surface: #151B2A; --fg: #E7EBF5; --muted: #9AA4BD;
+  --line: #283049; --accent: #8E9BFF; --accent-ink: #0D111C; --target: #3A4361;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-block: 40px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 960px; margin-inline: auto; display: flex; flex-direction: column; gap: 72px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.1; }
+p { margin: 0; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.eyebrow {
+  font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+/* Hero */
+.hero { display: flex; flex-direction: column; gap: 24px; }
+.hero h1 { font-size: clamp(40px, 9vw, 84px); font-weight: 700; letter-spacing: -0.02em; }
+.hero .lead { font-size: clamp(18px, 2.6vw, 22px); max-width: 38em; color: var(--fg); }
+.contact { display: flex; flex-wrap: wrap; gap: 12px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: 8px 8px 8px 14px; font-family: var(--font-mono); font-size: 14px; min-width: 0;
+}
+.chip span { overflow-wrap: anywhere; user-select: all; }
+.copy {
+  font: inherit; font-family: var(--font-body); font-size: 13px; font-weight: 500;
+  background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 6px;
+  padding: 6px 12px; cursor: pointer;
+}
+.copy:hover { filter: brightness(1.08); }
+
+/* Section header */
+.sec-head { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
+.sec-head h2 { font-size: clamp(26px, 4vw, 36px); font-weight: 600; letter-spacing: -0.01em; }
+.sec-head p { color: var(--muted); max-width: 40em; }
+
+/* Scoreboard */
+.board { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: clamp(16px, 3vw, 28px); }
+.row, .axis-row {
+  display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr) minmax(0, 170px);
+  column-gap: 24px; align-items: center;
+}
+.row { padding-block: 18px; border-top: 1px solid var(--line); }
+.who strong { display: block; font-family: var(--font-display); font-size: 18px; font-weight: 600; line-height: 1.2; }
+.who span { display: block; color: var(--muted); font-size: 14px; }
+.figure { font-family: var(--font-mono); font-size: 14px; line-height: 1.4; }
+.figure b { display: block; font-size: 24px; font-weight: 500; color: var(--accent); letter-spacing: -0.02em; }
+.figure small { color: var(--muted); font-size: 13px; }
+
+.axis-row { padding-bottom: 12px; }
+.axis { position: relative; height: 20px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.axis i { position: absolute; top: 0; transform: translateX(-50%); font-style: normal; white-space: nowrap; }
+.axis i:first-child { transform: none; }
+
+.meter { position: relative; height: 26px; }
+.meter .base { position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--line); }
+.meter .bar { position: absolute; left: 0; top: 4px; bottom: 4px; background: var(--accent); border-radius: 0 4px 4px 0; }
+.meter .range { position: absolute; top: 4px; bottom: 4px; background: var(--accent); opacity: 0.4; border-radius: 0 4px 4px 0; }
+.meter .open { position: absolute; top: 4px; bottom: 4px; border: 1.5px dashed var(--accent); border-left: 0; border-radius: 0 4px 4px 0; }
+.meter .target { position: absolute; left: 22.222%; top: -2px; bottom: -2px; width: 2px; background: var(--fg); }
+.board-note { margin-top: 18px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; }
+.axis-row .spacer { display: block; }
+
+/* Experience */
+.job { display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); column-gap: 32px; padding-block: 28px; border-top: 1px solid var(--line); }
+.job:last-child { border-bottom: 1px solid var(--line); }
+.job .when { font-family: var(--font-mono); font-size: 13px; color: var(--muted); padding-top: 6px; }
+.job h3 { font-size: 22px; font-weight: 600; }
+.job .org { color: var(--muted); margin-bottom: 12px; }
+.job ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.job li::marker { color: var(--accent); }
+
+/* Skills, education */
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; }
+.list { list-style: none; margin: 0; padding: 0; }
+.list li { padding-block: 10px; border-top: 1px solid var(--line); }
+.list li:last-child { border-bottom: 1px solid var(--line); }
+.skills { columns: 2; column-gap: 32px; list-style: none; margin: 0; padding: 0; }
+.skills li { padding-block: 10px; border-top: 1px solid var(--line); break-inside: avoid; }
+.kv { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.kv span:last-child { font-family: var(--font-mono); font-size: 14px; color: var(--muted); }
+.stack { display: flex; flex-direction: column; gap: 28px; min-width: 0; }
+.stack h2 { font-size: 26px; font-weight: 600; }
+
+/* Footer */
+.foot { display: flex; flex-direction: column; gap: 20px; border-top: 2px solid var(--fg); padding-top: 28px; }
+.foot h2 { font-size: clamp(28px, 5vw, 44px); font-weight: 700; letter-spacing: -0.01em; }
+
+@media (max-width: 760px) {
+  .wrap { gap: 56px; }
+  .row { grid-template-columns: minmax(0, 1fr); row-gap: 10px; }
+  .axis-row { grid-template-columns: minmax(0, 1fr); }
+  .axis-row .spacer { display: none; }
+  .axis-row .axis-end { display: none; }
+  .job { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
+  .two { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .skills { columns: 1; }
+  .figure { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .figure b { display: inline; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .meter .bar, .meter .range, .meter .open { animation: grow 700ms ease-out both; transform-origin: left; }
+  @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">Sales · Team leadership · Branch management</p>
+    <h1>Omar Mostafa Ibrahim Elsayed</h1>
+    <p class="lead">Sales professional with 5+ years across retail, furniture and real estate. I have run branches, led sales teams and handled the full sales cycle from lead to close, and I have beaten the assigned target in every role.</p>
+    <div class="contact">
+      <div class="chip"><span id="mail">omarmostafa01130@gmail.com</span><button class="copy" type="button" data-copy="mail">Copy</button></div>
+      <div class="chip"><span id="tel">01130694319</span><button class="copy" type="button" data-copy="tel">Copy</button></div>
+    </div>
+  </header>
+
+  <section aria-labelledby="results-h">
+    <div class="sec-head">
+      <p class="eyebrow">Results</p>
+      <h2 id="results-h">Sales against target</h2>
+      <p>Each bar shows actual sales as a multiple of the target set for that role. The black line is the target.</p>
+    </div>
+    <div class="board">
+      <div class="axis-row" aria-hidden="true">
+        <span class="spacer"></span>
+        <div class="axis">
+          <i style="left:0">0×</i>
+          <i style="left:22.222%">1× target</i>
+          <i style="left:44.444%">2×</i>
+          <i style="left:66.667%">3×</i>
+          <i style="left:88.889%">4×</i>
+        </div>
+        <span class="spacer axis-end"></span>
+      </div>
+
+      <div class="row">
+        <div class="who"><strong>Samir &amp; William</strong><span>Branch Manager · 2021–2023</span></div>
+        <div class="meter" role="img" aria-label="430K EGP monthly sales against a 120K EGP target, 3.6 times the target">
+          <div class="base"></div>
+          <div class="bar" style="width:80%"></div>
+          <div class="target"></div>
+        </div>
+        <div class="figure"><b>3.6×</b><small>430K vs 120K EGP / month</small></div>
+      </div>
+
+      <div class="row">
+        <div class="who"><strong>Kabbani Furniture</strong><span>Senior Sales Representative · 2023–2024</span></div>
+        <div class="meter" role="img" aria-label="3M to 5M EGP monthly sales against a 1.5M EGP individual target, 2 to 3.3 times the target">
+          <div class="base"></div>
+          <div class="bar" style="width:44.444%"></div>
+          <div class="range" style="left:44.444%; width:29.63%"></div>
+          <div class="target"></div>
+        </div>
+        <div class="figure"><b>2× to 3.3×</b><small>3M–5M vs 1.5M EGP / month</small></div>
+      </div>
+
+      <div class="row">
+        <div class="who"><strong>Bold Roots Real Estate</strong><span>Team Leader · 2024–2025</span></div>
+        <div class="meter" role="img" aria-label="Exceeded the 20M EGP quarterly sales target">
+          <div class="base"></div>
+          <div class="bar" style="width:22.222%"></div>
+          <div class="open" style="left:22.222%; width:8%"></div>
+          <div class="target"></div>
+        </div>
+        <div class="figure"><b>Above target</b><small>20M EGP / quarter</small></div>
+      </div>
+
+      <div class="row">
+        <div class="who"><strong>Radio Shack</strong><span>Branch Manager · 2025–2026</span></div>
+        <div class="meter" role="img" aria-label="600K EGP monthly sales against a 150K EGP target, 4 times the target">
+          <div class="base"></div>
+          <div class="bar" style="width:88.889%"></div>
+          <div class="target"></div>
+        </div>
+        <div class="figure"><b>4×</b><small>600K vs 150K EGP / month</small></div>
+      </div>
+
+      <p class="board-note">Kabbani Furniture is shown as a range because monthly sales averaged between 3M and 5M EGP. For Bold Roots the result is reported as above the quarterly target, so no multiple is drawn.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="exp-h">
+    <div class="sec-head">
+      <p class="eyebrow">Experience</p>
+      <h2 id="exp-h">Where I have worked</h2>
+    </div>
+
+    <article class="job">
+      <div class="when">Dec 2025 – Oct 2026</div>
+      <div>
+        <h3>Branch Manager</h3>
+        <p class="org">Radio Shack</p>
+        <ul>
+          <li>Raised monthly branch sales to 600K EGP against a 150K EGP monthly target, 4× the target.</li>
+          <li>Led, coached and motivated a team of sales associates to reach individual and branch targets.</li>
+          <li>Managed inventory levels, stock replenishment and loss-prevention procedures.</li>
+          <li>Reviewed daily and monthly sales reports to spot trends and adjust the sales approach.</li>
+          <li>Handled customer inquiries, complaints and escalations.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when">Oct 2024 – Nov 2025</div>
+      <div>
+        <h3>Team Leader</h3>
+        <p class="org">Bold Roots Real Estate</p>
+        <ul>
+          <li>Exceeded the 20M EGP quarterly sales target.</li>
+          <li>Led and trained a team of real estate sales agents, giving ongoing performance feedback.</li>
+          <li>Negotiated property deals and guided the team through the sales cycle, from lead generation to closing.</li>
+          <li>Set sales targets, tracked team KPIs and reported results to senior management.</li>
+          <li>Maintained relationships with clients, developers and investors.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when">May 2023 – Aug 2024</div>
+      <div>
+        <h3>Senior Sales Representative</h3>
+        <p class="org">Kabbani Furniture</p>
+        <ul>
+          <li>Averaged 3M–5M EGP in monthly sales against a 1.5M EGP individual target.</li>
+          <li>Managed the full sales cycle for furniture and home solutions, from consultation to closing.</li>
+          <li>Built long-term client relationships through consultative, needs-based selling.</li>
+          <li>Negotiated pricing and payment terms to close high-value sales while protecting profitability.</li>
+          <li>Trained junior sales team members on product knowledge and sales techniques.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when">Mar 2021 – Apr 2023</div>
+      <div>
+        <h3>Branch Manager</h3>
+        <p class="org">Samir &amp; William</p>
+        <ul>
+          <li>Led the team to 430K EGP in monthly sales against a 120K EGP monthly target, 3.6× the target.</li>
+          <li>Managed branch operations, including sales performance, staffing and inventory control.</li>
+          <li>Monitored budgets, expenses and sales reports for the branch.</li>
+          <li>Ran telesales and outbound calling campaigns to generate new leads.</li>
+          <li>Resolved customer complaints and escalations.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section class="two" aria-label="Skills, education and languages">
+    <div class="stack">
+      <h2>Core skills</h2>
+      <ul class="skills">
+        <li>Sales &amp; Negotiation</li>
+        <li>Deal Closing</li>
+        <li>Telesales &amp; Cold Calling</li>
+        <li>Branch Management</li>
+        <li>Team Leadership &amp; Coaching</li>
+        <li>Customer Relationship Management</li>
+        <li>Real Estate Sales</li>
+        <li>Retail Operations</li>
+        <li>Sales Reporting &amp; Budget Monitoring</li>
+        <li>KPI &amp; Target Tracking</li>
+      </ul>
+    </div>
+    <div class="stack">
+      <div class="stack">
+        <h2>Education</h2>
+        <ul class="list">
+          <li><div class="kv"><span>Bachelor's Degree in Information Systems</span><span>In progress, 3rd year</span></div></li>
+        </ul>
+      </div>
+      <div class="stack">
+        <h2>Languages</h2>
+        <ul class="list">
+          <li><div class="kv"><span>Arabic</span><span>C2 (Native)</span></div></li>
+          <li><div class="kv"><span>English</span><span>A2, improving toward C2</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <h2>Let's talk about your sales targets.</h2>
+    <div class="contact">
+      <div class="chip"><span id="mail2">omarmostafa01130@gmail.com</span><button class="copy" type="button" data-copy="mail2">Copy</button></div>
+      <div class="chip"><span id="tel2">01130694319</span><button class="copy" type="button" data-copy="tel2">Copy</button></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+document.querySelectorAll('.copy').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var el = document.getElementById(btn.getAttribute('data-copy'));
+    var text = el.textContent;
+    function done() {
+      btn.textContent = 'Copied';
+      setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+    }
+    function select() {
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = 'Selected';
+      setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+    }
+    try {
+      navigator.clipboard.writeText(text).then(done, select);
+    } catch (e) { select(); }
+  });
+});
+</script>
+
+</body>
+</html>
